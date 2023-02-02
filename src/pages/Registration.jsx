@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
 import "../index.css"
-import headArowana2 from '../images/headArowana2.png';
-import bodyArowana from '../images/bodyArowana.png';
 import { Link } from "react-router-dom";
 
 const Registration = () => {
@@ -30,10 +28,10 @@ const Registration = () => {
     }
 
     return (
-        <div className="container-fluid">
+        <div className="container-full">
             <div className="row justify-content-center">
                 <div className="col-lg text-end align-self-end pb-4 d-none d-lg-block">
-                    <img src={headArowana2} alt="" />
+                    <img src={process.env.PUBLIC_URL + "/images/headArowana.png"} alt="" />
                 </div>
                 <div className="col-lg px-lg-0 px-2">
                     <form className="form-control sticky-top glass">
@@ -48,12 +46,12 @@ const Registration = () => {
                             <div className="col-6 d-grid mx-auto mb-3">
                                 <button type="submit" className="btn" name="submit">Daftar</button>
                             </div>
-                            <p className="text-center text-light">Sudah punya akun? <Link className="text-dark" to="/Login">Login disini!</Link></p>
+                            <p className="text-center text-light">Sudah punya akun? <Link className="text-dark" to="/login">Login disini!</Link></p>
                         </div>
                     </form>
                 </div>
                 <div className="col-lg align-self-center d-none d-lg-block">
-                    <img src={bodyArowana} alt="" />
+                    <img src={process.env.PUBLIC_URL + "/images/bodyArowana.png"} alt="" />
                 </div>
             </div>
         </div>

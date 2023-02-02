@@ -1,35 +1,46 @@
-import React, {useState, useEffect} from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import './index.css';
 
 const Navbar = () => {
-    const [navClass, setNavClass] = useState(false);
-    
     function navScroll() {
         console.log(window.scrollY);
-        if(window.scrollY >= 45) {
-            setNavClass(true);
+        const navbar = document.getElementById("container_nav");
+        if (window.scrollY >= 45) {
+            navbar.classList.add("nav-scroll");
         } else {
-            setNavClass(false);
+            navbar.classList.remove("nav-scroll");
         }
     }
 
     useEffect(() => {
         window.addEventListener('scroll', navScroll);
-    })
+    });
 
     return (
-        <nav className= {navClass ? "container-nav sticky-top nav-scroll" : "container-nav sticky-top"}>
-            <div className="container">
-                <ul className=" navbar-list fw-bold" style={{ margin: 0 }}>
+        <nav className="container-nav" id="container_nav">
+            <div className="container h-100">
+                <ul className="container navbar-list fw-bold" style={{ margin: 0 }}>
                     <li>
-                        <Link className="link1" to="/">Home</Link>
+                        <Link className="link1" to="/"><img className="logo-text" src={process.env.PUBLIC_URL + "/images/logotext.png"} alt="logo-text" /></Link>
                     </li>
                     <li>
                         <Link to="/Registration">Daftar</Link>
                     </li>
                     <li>
                         <Link to="/Contact">Contact</Link>
+                    </li>
+                    <li>
+                        <Link to="/Pricing">Pricing</Link>
+                    </li>
+                    <li>
+                        <a class="dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Akun Saya
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><Link className="dropdown-item" to="/Registration">Daftar</Link></li>
+                            <li><Link className="dropdown-item" to="/Pricing">Pricing</Link></li>
+                        </ul>
                     </li>
                 </ul>
             </div>

@@ -15,7 +15,7 @@ function App() {
           <Route path='contact' element={<Contact />} />
           <Route path='*' element={<NoPage />} />
         </Route>
-        <Route path='/registration' element={<Registration />} />
+        <Route path='registration' element={<Registration />} />
       </Routes>
     </BrowserRouter>
   );
