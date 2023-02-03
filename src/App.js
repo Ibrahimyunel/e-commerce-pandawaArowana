@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from './pages/Layout';
 import Home from './pages/Home';
 import Registration from './pages/Registration';
+import Login from './pages/Login';
 import Contact from './pages/Contact';
 import NoPage from './pages/NoPage';
 
@@ -16,6 +17,7 @@ function App() {
           <Route path='*' element={<NoPage />} />
         </Route>
         <Route path='registration' element={<Registration />} />
+        <Route path='login' element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

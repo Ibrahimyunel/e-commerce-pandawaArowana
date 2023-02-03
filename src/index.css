@@ -46,7 +46,6 @@ a {
 
 a:hover {
   color: rgb(0, 165, 110);
-  font-weight: bold;
 }
 
 .main-show {
@@ -64,7 +63,6 @@ a:hover {
   margin: auto;
   color: #ccc;
   text-transform: uppercase;
-  font-family: "Akaya Telivigala";
 }
 
 .circle-button {
@@ -114,7 +112,19 @@ a:hover {
   background: -webkit-radial-gradient(circle farthest-corner at center center, #b8eaf7 0%, #001524 70%);
   background: -moz-radial-gradient(circle farthest-corner at center center, #b8eaf7 0%, #001524 70%);
   height: 100vh;
-  overflow: hidden;
+  max-height: 200vh;
+}
+
+.logo-center {
+  text-align: center;
+}
+
+.wrapper-sign {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-control:focus {
@@ -148,8 +158,82 @@ a:hover {
   border: 1px solid rgba(255, 255, 255, 0.73);
 }
 
+.row.wrapper-sign {
+  --bs-gutter-x: 0;
+}
+
 .row>* {
   padding-left: 0;
   padding-right: 0;
-  padding-top: 3em;
+}
+
+.head-aro {
+  text-align: end;
+  margin-top: 17vh;
+}
+
+
+@media only screen and (max-width: 768px) {
+  svg {
+    width: 2.3em;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    right: 1em;
+    cursor: pointer;
+  }
+
+  svg.menu-icon {
+    display: block;
+  }
+
+  svg.close-icon {
+    display: none;
+  }
+
+  .container-nav {
+    background-color: rgb(250, 250, 250);
+  }
+
+  nav>div.container {
+    all: unset;
+  }
+
+  .navbar-list {
+    display: block;
+  }
+
+  .navbar-list>* {
+    transform: scaleY(0);
+    transition: all .2s ease-in;
+  }
+
+  .navbar-list> :nth-child(1) {
+    transform: unset;
+  }
+
+  .navbar-list.nl-close>* {
+    transform: unset;
+  }
+
+  a.link {
+    text-decoration: none;
+    color: rgb(0, 202, 135);
+    font-size: large;
+    display: block;
+    padding: 0.5rem 1rem;
+    background-color: rgb(250, 250, 250);
+    text-align: center;
+  }
+
+  a.link1 {
+    padding: 0.5rem 1rem;
+  }
+
+  a.link:hover {
+    color: unset;
+    background-color: #ccc;
+  }
+
 }

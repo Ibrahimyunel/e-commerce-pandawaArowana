@@ -5,23 +5,15 @@ import { Link } from "react-router-dom";
 import { LogoNavbar } from "../Navbar";
 
 const Registration = () => {
-    const [name, setName] = useState();
-    const [handphone, setHandphone] = useState();
-    const [address, setAddress] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [ConfirmPassword, setConfirmPassword] = useState();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(name, handphone, address, email, password, ConfirmPassword);
+        console.log(email, password);
         let formData = new FormData();
-        formData.append('name', name);
-        formData.append('handphone', handphone);
-        formData.append('address', address);
         formData.append('email', email);
         formData.append('password', password);
-        formData.append('ConfirmPassword', ConfirmPassword);
         const url = "http://localhost:8080/theiam-backend/pandawa-arowana/index.php";
         axios.post(url, formData)
             .then(res => console.log(res))
@@ -37,21 +29,16 @@ const Registration = () => {
                 <div className="col-lg px-lg-0 p-3">
                     <form className="form-control sticky-top glass">
                         <div className="p-2">
-                            <h2 className="text-light text-center mb-4">Registrasi</h2>
-                            <input type="text" className="form-control mb-3" name="name" id="name" placeholder="Nama" onChange={(e) => { setName(e.target.value) }} />
-                            <input type="text" className="form-control mb-3" name="handphone" id="handphone" placeholder="Handphone" onChange={(e) => { setHandphone(e.target.value) }} />
-                            <input type="text" className="form-control mb-3" name="address" id="address" placeholder="Alamat" onChange={(e) => { setAddress(e.target.value) }} />
+                            <h2 className="text-light text-center mb-4">Login</h2>
                             <input type="text" className="form-control mb-3" name="email" id="email" placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
                             <input type="text" className="form-control mb-3" name="password" id="password" placeholder="Password" onChange={(e) => { setPassword(e.target.value) }} />
-                            <input type="text" className="form-control mb-3" name="confirmPassword" id="confirmPassword" placeholder="Ulangi Password" onChange={(e) => { setConfirmPassword(e.target.value) }} />
                             <div className="col-6 d-grid mx-auto mb-3">
-                                <button type="submit" className="btn" name="submit">Daftar</button>
+                                <button type="submit" className="btn" name="submit">Login</button>
                             </div>
-                            <p className="text-center text-light">Sudah punya akun? <Link className="text-dark" to="/login">Login disini!</Link></p>
+                            <p className="text-center text-light">Belum punya akun? <Link className="text-dark" to="/registration">Daftar disini!</Link></p>
                             <div className="logo-center">{LogoNavbar}</div>
                         </div>
                     </form>
-
                 </div>
                 <div className="col-lg align-self-center d-none d-lg-block">
                     <img src={process.env.PUBLIC_URL + "/images/bodyArowana.png"} alt="" />
