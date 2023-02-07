@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import "../index.css"
 import { Link } from "react-router-dom";
-import { LogoNavbar } from "../Navbar";
+import { logoNavbar } from "../Navbar";
 
 const Registration = () => {
     const [name, setName] = useState();
@@ -48,7 +48,7 @@ const Registration = () => {
                                 <button type="submit" className="btn" name="submit">Daftar</button>
                             </div>
                             <p className="text-center text-light">Sudah punya akun? <Link className="text-dark" to="/login">Login disini!</Link></p>
-                            <div className="logo-center">{LogoNavbar}</div>
+                            <div className="logo-center">{logoNavbar}</div>
                         </div>
                     </form>
 
