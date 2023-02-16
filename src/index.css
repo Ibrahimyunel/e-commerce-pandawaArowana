@@ -112,17 +112,15 @@ a:hover {
   background: -webkit-radial-gradient(circle farthest-corner at center center, #b8eaf7 0%, #001524 70%);
   background: -moz-radial-gradient(circle farthest-corner at center center, #b8eaf7 0%, #001524 70%);
   height: 100vh;
-  max-height: 200vh;
 }
 
 .logo-center {
   text-align: center;
 }
 
-.wrapper-sign {
+.wrapper-content {
   display: flex;
   height: 100%;
-  width: 100%;
   align-items: center;
   justify-content: center;
 }

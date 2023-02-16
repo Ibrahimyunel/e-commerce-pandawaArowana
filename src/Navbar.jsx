@@ -7,6 +7,7 @@ export const logoNavbar = <Link className="link1" to="/"><img className="logo-te
 const Navbar = () => {
     const [scrollRemove, setScrollRemove] = useState(false);
     const [scrollAdd, setScrollAdd] = useState(false);
+    
     function navScroll() {
         const navbar = document.getElementById("container_nav");
         if (window.scrollY >= 45) {
@@ -31,6 +32,7 @@ const Navbar = () => {
     const [menu, setMenu] = useState(false);
     const menuRef = useRef(null);
     const closeRef = useRef(null);
+
     function handleMenu() {
         setMenu(!menu);
         if (!menu) {
