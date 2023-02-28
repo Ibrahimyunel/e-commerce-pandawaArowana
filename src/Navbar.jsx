@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Route, Link, Outlet } from "react-router-dom";
+import { AuthNavbar } from "./auth-component/authAdditional";
 import './index.css';
 
 export const logoNavbar = <Link className="logo-pandawa" to="/"><img className="logo-text" src={process.env.PUBLIC_URL + "/images/logotext.png"} alt="logo-text" /></Link>;
@@ -43,11 +44,6 @@ const Navbar = () => {
             closeRef.current.style.display = "none";
         }
     }
-
-    function handleLogout() {
-        localStorage.setItem('profile', false);
-        window.location.reload();
-    }
     const profile = localStorage.getItem('profile');
     const profileBoolean = (profile === 'true');
 
@@ -79,12 +75,7 @@ const Navbar = () => {
                                 Akun Saya
                             </a>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                {profileBoolean ? (
-                                    <>
-                                        <li><Link className="dropdown-item" to="/Registration">It's me</Link></li>
-                                        <li><Link className="dropdown-item" to="#" onClick={handleLogout}>Keluar</Link></li>
-                                    </>
-                                ) : (
+                                {profileBoolean ? <AuthNavbar /> : (
                                     <>
                                         <li><Link className="dropdown-item" to="/Registration">Daftar</Link></li>
                                         <li><Link className="dropdown-item" to="/login">Masuk</Link></li>
