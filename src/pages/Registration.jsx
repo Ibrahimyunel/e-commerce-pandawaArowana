@@ -70,7 +70,7 @@ const Registration = () => {
                 <div className="col-lg d-none d-lg-block head-aro">
                     <img src={process.env.PUBLIC_URL + "/images/headArowana.png"} alt="" />
                 </div>
-                <form className="form-control col-lg p-3 glass" ref={formRef} onSubmit={errorValidation}>
+                <form className="form-control col-lg p-3 glass" autoComplete="off" ref={formRef} onSubmit={errorValidation}>
                     <h2 className="text-light text-center mb-4">Registrasi</h2>
                     <input
                         type="text"

@@ -78,7 +78,7 @@ function Login() {
                 <div className="col-lg d-none d-lg-block head-aro">
                     <img src={process.env.PUBLIC_URL + "/images/headArowana.png"} alt="" />
                 </div>
-                <form className="form-control col-lg p-3 glass" onSubmit={handleSubmit}>
+                <form className="form-control col-lg p-3 glass" autoComplete="off" onSubmit={handleSubmit}>
                     {validationMsg}
                     <h2 className="text-light text-center mb-4">Login</h2>
                     <input
