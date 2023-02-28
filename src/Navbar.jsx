@@ -44,6 +44,7 @@ const Navbar = () => {
             closeRef.current.style.display = "none";
         }
     }
+
     const profile = localStorage.getItem('profile');
     const profileBoolean = (profile === 'true');
 
