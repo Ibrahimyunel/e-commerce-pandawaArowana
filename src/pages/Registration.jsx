@@ -1,9 +1,9 @@
-import axios from "../api/axios";
 import React, { useState, useEffect, useRef } from "react";
-import "../index.css"
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import axios from "../api/axios";
 import { logoNavbar } from "../Navbar";
+
 
 const Registration = () => {
     const [username, setUsername] = useState('');
@@ -15,46 +15,7 @@ const Registration = () => {
 
     const formRef = useRef();
     const usernameRef = useRef();
-
-
-
-
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     axios.post("/register",
-    //         { username, whatsapp, email, password }
-    //     )
-    //         .then(res => console.log(res))
-    //         .catch(err => console.log(err));
-    // }
-
-    const errorValidation = (e) => {
-        e.preventDefault();
-        const target = [].slice.call(formRef.current.children);
-        const valList = [username, whatsapp, email, password];
-        const emptyData = [];
-        const emptyIdx = [];
-        for (let i = 0; i < valList.length; i++) {
-            if (valList[i] === "") {
-                emptyData.push(target[i + 1].placeholder);
-                emptyIdx.push(valList.indexOf(valList[i]));
-            }
-        }
-        if (emptyData.length > 0) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Oops...',
-                text: "Kamu belum isi " + emptyData,
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK'
-            }).then((res) => {
-                if (res.isConfirmed) {
-                    setTimeout(() => target[emptyIdx[0] + 1].focus(), 290);
-                }
-            });
-        }
-    }
+    const confirmPassRef = useRef();
 
     useEffect(() => {
         usernameRef.current.focus();
@@ -64,13 +25,74 @@ const Registration = () => {
         setMatchPass(password === confirmPass);
     }, [password, confirmPass]);
 
+    const errorValidation = (e) => {
+        e.preventDefault();
+        const target = [].slice.call(formRef.current.children);
+        const valList = [username, whatsapp, email, password];
+        const emptyData = [];
+        const emptyIdx = [];
+
+        for (let i = 0; i < valList.length; i++) {
+            if (valList[i] === "") {
+                emptyData.push(target[i + 1].placeholder);
+                emptyIdx.push(valList.indexOf(valList[i]));
+            }
+        }
+
+        const swalError = {
+            icon: 'warning',
+            title: 'Oops...',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+        }
+
+        if (emptyData.length > 0) {
+            swalError.text = "Kamu belum isi " + emptyData;
+            Swal.fire(swalError)
+                .then(() => {
+                    setTimeout(() => target[emptyIdx[0] + 1].focus(), 290);
+                });
+            return false;
+        }
+        else if (!email.includes('@')) {
+            swalError.text = "Email kamu tidak valid";
+            Swal.fire(swalError)
+                .then(() => {
+                    setTimeout(() => target[3].focus(), 290);
+                });
+            return false;
+        }
+        else if (!matchPass) {
+            swalError.text = "Konfirmasi password kamu tidak valid";
+            Swal.fire(swalError)
+                .then(() => {
+                    setTimeout(() => confirmPassRef.current.focus(), 290);
+                });
+            return false;
+        } 
+        else {
+            return true;
+        }
+    }
+
+    const handleSubmit = (e) => {
+        if (errorValidation(e)) {
+            // e.preventDefault();
+            axios.post("/register",
+                { username, whatsapp, email, password }
+            )
+                .then(res => console.log(res))
+                .catch(err => console.log(err));
+        }
+    }
+
     return (
         <div className="container-full">
             <div className="row mx-lg-0 mx-2 wrapper-content">
                 <div className="col-lg d-none d-lg-block head-aro">
                     <img src={process.env.PUBLIC_URL + "/images/headArowana.png"} alt="" />
                 </div>
-                <form className="form-control col-lg p-3 glass" autoComplete="off" ref={formRef} onSubmit={errorValidation}>
+                <form className="form-control col-lg p-3 glass" autoComplete="off" ref={formRef} onSubmit={handleSubmit}>
                     <h2 className="text-light text-center mb-4">Registrasi</h2>
                     <input
                         type="text"
@@ -110,7 +132,8 @@ const Registration = () => {
                         type="password"
                         className="form-control mb-3"
                         id="confirmPassword"
-                        placeholder="Ulangi Password"
+                        placeholder="Konfirmasi Password"
+                        ref={confirmPassRef}
                         value={confirmPass}
                         onChange={(e) => setConfirmPass(e.target.value)}
                     />
