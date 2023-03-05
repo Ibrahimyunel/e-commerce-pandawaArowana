@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import '../index.css';
 
 const images = [
     { id: 1, src: '/images/logopandawaarowanaT.png', title: 'foo', description: 'bar' },
@@ -25,10 +24,8 @@ const Home = () => {
 
     return (
         <div>
-            <div className="main-show">
-                <div className="main-text">
-                    <h1>Pandawa Arowana akan buat pengalaman belanja dan merawat arwana menjadi lebih menyenangkan</h1>
-                </div>
+            <div className="home-main-show">
+                <h1>Pandawa Arowana akan buat pengalaman belanja dan merawat arwana menjadi lebih menyenangkan</h1>
                 <div className="mx-auto col-11 col-md-8">
                     <img className="img-fluid" src={process.env.PUBLIC_URL + "/images/logopandawaarowanaT.png"} alt="" />
                 </div>

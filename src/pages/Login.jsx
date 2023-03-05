@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 import { logoNavbar } from "../Navbar";
-import "../index.css";
 
 function Login() {
     const navigate = useNavigate();
