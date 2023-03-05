@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { BrowserRouter, Route, Link, Outlet } from "react-router-dom";
 import { AuthNavbar } from "./auth-component/authAdditional";
-import './index.css';
 
 export const logoNavbar = <Link className="logo-pandawa" to="/"><img className="logo-text" src={process.env.PUBLIC_URL + "/images/logotext.png"} alt="logo-text" /></Link>;
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import '../index.css';
 
 const images = [
     { id: 1, src: '/images/logopandawaarowanaT.png', title: 'foo', description: 'bar' },
