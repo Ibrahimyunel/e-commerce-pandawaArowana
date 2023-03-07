@@ -27,7 +27,7 @@ function Login() {
         console.log(JSON.stringify({ username, password }));
         try {
             const response = await axios.get(
-                "/users/login",
+                "/login",
                 JSON.stringify({ username, password }),
                 {
                     withCredentials: true,
@@ -68,9 +68,7 @@ function Login() {
     //         .then(res => console.log(res))
     //         .catch(err => console.log(err));
     // }
- 
-    const validationMsg = (<p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>);
-    
+  
     return (
         <div className="container-full">
             <div className="row mx-lg-0 mx-2 wrapper-content">
@@ -78,7 +76,6 @@ function Login() {
                     <img src={process.env.PUBLIC_URL + "/images/headArowana.png"} alt="" />
                 </div>
                 <form className="form-control col-lg p-3 glass" autoComplete="off" onSubmit={handleSubmit}>
-                    {validationMsg}
                     <h2 className="text-light text-center mb-4">Login</h2>
                     <input
                         type="text"

@@ -4,6 +4,16 @@ import Swal from "sweetalert2";
 import axios from "../api/axios";
 import { logoNavbar } from "../Navbar";
 
+const swalConfig = {
+    icon: 'warning',
+    title: 'Oops...',
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'OK'
+}
+
+function changeSwalConfig(swalConfig, icon, title) {
+    return {...swalConfig, icon: icon, title: title}
+}
 
 const Registration = () => {
     const [username, setUsername] = useState('');
@@ -25,51 +35,46 @@ const Registration = () => {
         setMatchPass(password === confirmPass);
     }, [password, confirmPass]);
 
+    const targetInput = [].slice.call(formRef.current.children)
+    targetInput.shift();
+    const valList = [username, whatsapp, email, password];
+
     const errorValidation = (e) => {
         e.preventDefault();
-        const target = [].slice.call(formRef.current.children);
-        const valList = [username, whatsapp, email, password];
         const emptyData = [];
         const emptyIdx = [];
 
         for (let i = 0; i < valList.length; i++) {
             if (valList[i] === "") {
-                emptyData.push(target[i + 1].placeholder);
+                emptyData.push(targetInput[i].placeholder);
                 emptyIdx.push(valList.indexOf(valList[i]));
             }
         }
 
-        const swalError = {
-            icon: 'warning',
-            title: 'Oops...',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'OK'
-        }
-
         if (emptyData.length > 0) {
-            swalError.text = "Kamu belum isi " + emptyData;
-            Swal.fire(swalError)
+            swalConfig.text = "Kamu belum isi " + emptyData;
+            Swal.fire(swalConfig)
                 .then(() => {
-                    setTimeout(() => target[emptyIdx[0] + 1].focus(), 290);
+                    setTimeout(() => targetInput[emptyIdx[0]].focus(), 290);
                 });
             return false;
         }
         else if (!email.includes('@')) {
-            swalError.text = "Email kamu tidak valid";
-            Swal.fire(swalError)
+            swalConfig.text = "Email kamu tidak valid";
+            Swal.fire(swalConfig)
                 .then(() => {
-                    setTimeout(() => target[3].focus(), 290);
+                    setTimeout(() => targetInput[3].focus(), 290);
                 });
             return false;
         }
         else if (!matchPass) {
-            swalError.text = "Konfirmasi password kamu tidak valid";
-            Swal.fire(swalError)
+            swalConfig.text = "Konfirmasi password kamu tidak valid";
+            Swal.fire(swalConfig)
                 .then(() => {
                     setTimeout(() => confirmPassRef.current.focus(), 290);
                 });
             return false;
-        } 
+        }
         else {
             return true;
         }
@@ -77,12 +82,29 @@ const Registration = () => {
 
     const handleSubmit = (e) => {
         if (errorValidation(e)) {
-            // e.preventDefault();
             axios.post("/register",
                 { username, whatsapp, email, password }
             )
-                .then(res => console.log(res))
-                .catch(err => console.log(err));
+                .then((res) => {
+                    console.log(res.data);
+                    const successAlert = changeSwalConfig(swalConfig, 'success', 'Yeayy...');
+                    successAlert.text = 'Kamu berhasil terdaftar di pandawa family!';
+
+                    Swal.fire(successAlert)
+                    .then(() => {
+                        window.location.href = '/login';
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    const notUniqueVal = Object.values(err.response.data.err.keyValue) + "";
+                    const notUniqueIdx = valList.indexOf(notUniqueVal);
+                    swalConfig.text = `Registrasi gagal, ${targetInput[notUniqueIdx].placeholder} ${notUniqueVal} sudah terdaftar`;
+                    Swal.fire(swalConfig)
+                    .then(() => {
+                        setTimeout(() => targetInput[notUniqueIdx].focus(), 290);
+                    });
+                });
         }
     }
 
