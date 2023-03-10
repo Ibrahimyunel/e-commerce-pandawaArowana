@@ -1,6 +1,6 @@
 import axios from "../reusable/axios";
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 import { logoNavbar } from "../Navbar";
 import Swal from "sweetalert2";
