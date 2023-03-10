@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import { BrowserRouter, Route, Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { AuthNavbar } from "./auth-component/authAdditional";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 export const logoNavbar = <Link className="logo-pandawa" to="/"><img className="logo-text" src={process.env.PUBLIC_URL + "/images/logotext.png"} alt="logo-text" /></Link>;
 
@@ -44,8 +46,8 @@ const Navbar = () => {
         }
     }
 
-    const profile = localStorage.getItem('profile');
-    const profileBoolean = (profile === 'true');
+    const auth = cookies.get('auth');
+    const authBool = (auth === 'true');
 
     return (
         <>
@@ -67,14 +69,14 @@ const Navbar = () => {
                         <Link className="link" to="/Contact">Contact</Link>
                     </li>
                     <li>
-                        <Link className="link" to="/Pricing">{"" + profileBoolean}</Link>
+                        <Link className="link" to="/Pricing">{"" + authBool}</Link>
                     </li>
                     <li>
                         <a className="dropdown-toggle link" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Akun Saya
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            {profileBoolean ? <AuthNavbar /> : (
+                            {authBool ? <AuthNavbar /> : (
                                 <>
                                     <li><Link className="dropdown-item" to="/Registration">Daftar</Link></li>
                                     <li><Link className="dropdown-item" to="/login">Masuk</Link></li>
