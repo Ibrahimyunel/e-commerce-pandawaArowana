@@ -47,7 +47,7 @@ const Navbar = () => {
     }
 
     const auth = cookies.get('auth');
-    const authBool = (auth === 'true');
+    const authBool = (auth !== undefined);
 
     return (
         <>

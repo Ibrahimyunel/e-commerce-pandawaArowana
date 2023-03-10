@@ -1,19 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "../api/axios";
+import axios from "../reusable/axios";
 import { logoNavbar } from "../Navbar";
-
-const swalConfig = {
-    icon: 'warning',
-    title: 'Oops...',
-    confirmButtonColor: '#3085d6',
-    confirmButtonText: 'OK'
-}
-
-function changeSwalConfig(swalConfig, icon, title) {
-    return { ...swalConfig, icon: icon, title: title }
-}
+import { swalConfig, changeSwalConfig } from "../reusable/handleSwal";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const Registration = () => {
     const [username, setUsername] = useState('');
@@ -26,6 +18,12 @@ const Registration = () => {
     const formRef = useRef();
     const usernameRef = useRef();
     const confirmPassRef = useRef();
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (cookies.get('auth') !== undefined) navigate('/');
+    }, []);
 
     useEffect(() => {
         usernameRef.current.focus();
@@ -92,20 +90,23 @@ const Registration = () => {
 
                     Swal.fire(successAlert)
                         .then(() => {
-                            window.location.href = '/login';
+                            navigate('/login');
                         });
                 })
                 .catch((err) => {
                     console.log(err);
-                    const notUniqueVal = Object.values(err.response.data.err.keyValue) + "";
-                    const notUniqueIdx = valList.indexOf(notUniqueVal) + 1;
-                    const signName = formRef.current.children[notUniqueIdx];
-                    console.log(notUniqueIdx);
-                    swalConfig.text = `Registrasi gagal, ${signName.placeholder} ${notUniqueVal} sudah terdaftar. Silahkan coba dengan ${signName.placeholder} yang berbeda ya...`;
+                    if (err.response.status === 500) {
+                        const notUniqueVal = Object.values(err.response.data.err.keyValue) + "";
+                        const notUniqueIdx = valList.indexOf(notUniqueVal) + 1;
+                        var signName = formRef.current.children[notUniqueIdx];
+                        swalConfig.text = `Registrasi gagal, ${signName.placeholder} ${notUniqueVal} sudah terdaftar. Silahkan coba dengan ${signName.placeholder} yang berbeda ya...`;
+                    } else {
+                        swalConfig.text = 'Maaf Registrasi kamu gagal, coba lagi nanti atau hubungi admin pada tombol chat';
+                    }
                     Swal.fire(swalConfig)
-                        .then(() => {
-                            setTimeout(() => signName.focus(), 290);
-                        });
+                            .then(() => {
+                                setTimeout(() => signName.focus(), 290);
+                            });
                 });
         }
     }
