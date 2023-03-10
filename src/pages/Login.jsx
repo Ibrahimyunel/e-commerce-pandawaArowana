@@ -1,47 +1,46 @@
 import axios from "../api/axios";
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 import { logoNavbar } from "../Navbar";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function Login() {
-    const navigate = useNavigate();
+    const [emailOrUsername, setEmailOrUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [errMsg, setErrMsg] = useState('');
+
     const setAuth = useContext(AuthContext);
     const userRef = useRef();
     const errRef = useRef();
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [errMsg, setErrMsg] = useState('');
-
-    useEffect(() => {
-        userRef.current.focus();
-    }, []);
+    userRef.current.focus();
 
     useEffect(() => {
         setErrMsg('');
-    }, [username, password]);
+    }, [emailOrUsername, password]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(JSON.stringify({ username, password }));
         try {
             const response = await axios.get(
                 "/login",
-                JSON.stringify({ username, password }),
+                JSON.stringify({ emailOrUsername, password }),
                 {
                     withCredentials: true,
                     headers: { 'Content-Type': 'application/json' }
                 }
             );
             console.log(response.data);
-            // const accessToken = response.data.accessToken;
-            // const roles = response.data.roles;
-            setAuth({ username, password });
-            setUsername('');
+            setAuth({ emailOrUsername, password });
+            setEmailOrUsername('');
             setPassword('');
-            localStorage.setItem('profile', true);
-            // navigate("/");
+            cookies.set('auth', true, {
+                path: '/',
+                maxAge: 86400 
+            })
+            window.location.href = '/';
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
@@ -56,18 +55,6 @@ function Login() {
             errRef.current.focus();
         }
     }
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     console.log(username, password);
-    //     let formData = new FormData();
-    //     formData.append('username', username);
-    //     formData.append('password', password);
-    //     const url = "http://localhost:8080/theiam-backend/pandawa-arowana/index.php";
-    //     axios.post(url, formData)
-    //         .then(res => console.log(res))
-    //         .catch(err => console.log(err));
-    // }
   
     return (
         <div className="container-full">
@@ -80,13 +67,13 @@ function Login() {
                     <input
                         type="text"
                         className="form-control mb-3"
-                        name="username"
-                        id="username"
-                        placeholder="username"
+                        name="emailOrUsername"
+                        id="emailOrUsername"
+                        placeholder="Email / Username"
                         autoComplete="off"
                         ref={userRef}
-                        onChange={(e) => { setUsername(e.target.value) }}
-                        value={username}
+                        onChange={(e) => { setEmailOrUsername(e.target.value) }}
+                        value={emailOrUsername}
                         required
                     />
                     <input
