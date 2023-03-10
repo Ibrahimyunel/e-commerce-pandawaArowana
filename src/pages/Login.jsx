@@ -1,60 +1,64 @@
-import axios from "../api/axios";
+import axios from "../reusable/axios";
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 import { logoNavbar } from "../Navbar";
+import Swal from "sweetalert2";
+import { swalConfig } from "../reusable/handleSwal";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 function Login() {
     const [emailOrUsername, setEmailOrUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [errMsg, setErrMsg] = useState('');
 
     const setAuth = useContext(AuthContext);
     const userRef = useRef();
-    const errRef = useRef();
+    const passwordRef = useRef();
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (cookies.get('auth') !== undefined) navigate('/');
+    }, []);
 
     useEffect(() => {
         userRef.current.focus();
     }, []);
 
-    useEffect(() => {
-        setErrMsg('');
-    }, [emailOrUsername, password]);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get(
+            const response = await axios.post(
                 "/login",
-                JSON.stringify({ emailOrUsername, password }),
-                {
-                    withCredentials: true,
-                    headers: { 'Content-Type': 'application/json' }
-                }
+                { emailOrUsername, password }
             );
-            console.log(response.data);
-            setAuth({ emailOrUsername, password });
+            // setAuth({ emailOrUsername, password });
             setEmailOrUsername('');
             setPassword('');
-            cookies.set('auth', true, {
+            cookies.set('auth', response.data.token, {
                 path: '/',
                 maxAge: 86400
             })
-            window.location.href = '/';
+            navigate('/');
         } catch (err) {
-            if (!err?.response) {
-                setErrMsg('No Server Response');
-            } else if (err.response?.status === 400) {
-                setErrMsg('Missing Username or Password');
-            } else if (err.response?.status === 401) {
-                setErrMsg('Unauthorized');
+            console.log(err);
+            if (!err.response) {
+                swalConfig.text = "Maaf login gagal, coba lagi nanti atau hubungi admin pada tombol chat";
+            } else if (err.response.status === 404 || err.response.status === 400) {
+                swalConfig.text = `Maaf login gagal, ${err.response.data.message}`;
             } else {
-                setErrMsg('Login Failed');
+                swalConfig.text = "Maaf login gagal";
             }
-            localStorage.setItem('profile', false);
-            errRef.current.focus();
+            cookies.remove('auth');
+            Swal.fire(swalConfig)
+                .then(() => {
+                    if (err.response !== undefined) {
+                        if (err.response.status === 400) setTimeout(() => passwordRef.current.focus(), 290);
+                    } else {
+                        setTimeout(() => userRef.current.focus(), 290);
+                    }
+                });
         }
     }
 
@@ -84,6 +88,7 @@ function Login() {
                         name="password"
                         id="password"
                         placeholder="Password"
+                        ref={passwordRef}
                         onChange={(e) => { setPassword(e.target.value) }}
                         value={password}
                         required
