@@ -15,7 +15,9 @@ function Login() {
     const userRef = useRef();
     const errRef = useRef();
 
-    userRef.current.focus();
+    useEffect(() => {
+        userRef.current.focus();
+    }, []);
 
     useEffect(() => {
         setErrMsg('');
@@ -38,7 +40,7 @@ function Login() {
             setPassword('');
             cookies.set('auth', true, {
                 path: '/',
-                maxAge: 86400 
+                maxAge: 86400
             })
             window.location.href = '/';
         } catch (err) {
@@ -55,7 +57,7 @@ function Login() {
             errRef.current.focus();
         }
     }
-  
+
     return (
         <div className="container-full">
             <div className="row mx-lg-0 mx-2 wrapper-content">

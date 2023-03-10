@@ -12,7 +12,7 @@ const swalConfig = {
 }
 
 function changeSwalConfig(swalConfig, icon, title) {
-    return {...swalConfig, icon: icon, title: title}
+    return { ...swalConfig, icon: icon, title: title }
 }
 
 const Registration = () => {
@@ -35,12 +35,12 @@ const Registration = () => {
         setMatchPass(password === confirmPass);
     }, [password, confirmPass]);
 
-    const targetInput = [].slice.call(formRef.current.children)
-    targetInput.shift();
     const valList = [username, whatsapp, email, password];
 
     const errorValidation = (e) => {
         e.preventDefault();
+        const targetInput = [].slice.call(formRef.current.children)
+        targetInput.shift();
         const emptyData = [];
         const emptyIdx = [];
 
@@ -63,7 +63,7 @@ const Registration = () => {
             swalConfig.text = "Email kamu tidak valid";
             Swal.fire(swalConfig)
                 .then(() => {
-                    setTimeout(() => targetInput[3].focus(), 290);
+                    setTimeout(() => targetInput[2].focus(), 290);
                 });
             return false;
         }
@@ -91,19 +91,21 @@ const Registration = () => {
                     successAlert.text = 'Kamu berhasil terdaftar di pandawa family!';
 
                     Swal.fire(successAlert)
-                    .then(() => {
-                        window.location.href = '/login';
-                    });
+                        .then(() => {
+                            window.location.href = '/login';
+                        });
                 })
                 .catch((err) => {
                     console.log(err);
                     const notUniqueVal = Object.values(err.response.data.err.keyValue) + "";
-                    const notUniqueIdx = valList.indexOf(notUniqueVal);
-                    swalConfig.text = `Registrasi gagal, ${targetInput[notUniqueIdx].placeholder} ${notUniqueVal} sudah terdaftar`;
+                    const notUniqueIdx = valList.indexOf(notUniqueVal) + 1;
+                    const signName = formRef.current.children[notUniqueIdx];
+                    console.log(notUniqueIdx);
+                    swalConfig.text = `Registrasi gagal, ${signName.placeholder} ${notUniqueVal} sudah terdaftar. Silahkan coba dengan ${signName.placeholder} yang berbeda ya...`;
                     Swal.fire(swalConfig)
-                    .then(() => {
-                        setTimeout(() => targetInput[notUniqueIdx].focus(), 290);
-                    });
+                        .then(() => {
+                            setTimeout(() => signName.focus(), 290);
+                        });
                 });
         }
     }
