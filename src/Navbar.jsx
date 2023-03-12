@@ -63,13 +63,13 @@ const Navbar = () => {
                 </div>
                 <ul className={menu ? "navlist navlist-close" : "navlist"}>
                     <li>
-                        <Link className="link" to="/Registration">Daftar</Link>
+                        <Link className="link" to="/registration">Daftar</Link>
                     </li>
                     <li>
-                        <Link className="link" to="/Contact">Contact</Link>
+                        <Link className="link" to="/contact">Contact</Link>
                     </li>
                     <li>
-                        <Link className="link" to="/Pricing">{"" + authBool}</Link>
+                        <Link className="link" to="/upload">Upload</Link>
                     </li>
                     <li>
                         <a className="dropdown-toggle link" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -78,7 +78,7 @@ const Navbar = () => {
                         <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             {authBool ? <AuthNavbar /> : (
                                 <>
-                                    <li><Link className="dropdown-item" to="/Registration">Daftar</Link></li>
+                                    <li><Link className="dropdown-item" to="/registration">Daftar</Link></li>
                                     <li><Link className="dropdown-item" to="/login">Masuk</Link></li>
                                 </>
                             )}
