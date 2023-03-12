@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Navbar from './Navbar';
-import Home from './pages/Home';
-import Registration from './pages/Registration';
-import Login from './pages/Login';
+import Home from './components/Home';
+import Registration from './components/Registration';
+import Login from './components/Login';
 import { AuthProvider } from './context/AuthProvider';
-import Contact from './pages/Contact';
-import NoPage from './pages/NoPage';
+import Upload from './components/Upload';
+import Contact from './components/Contact';
+import NoPage from './components/NoPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Navbar />}>
           <Route index element={<Home />} />
+          <Route path='upload' element={<Upload />} />
           <Route path='contact' element={<Contact />} />
           <Route path='*' element={<NoPage />} />
         </Route>
