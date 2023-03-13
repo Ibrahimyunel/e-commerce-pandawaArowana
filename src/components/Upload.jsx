@@ -15,7 +15,7 @@ const Upload = () => {
         e.preventDefault();
         if (imageUpload) {
             try {
-                const name = imageUpload.name;
+                const name = imageUpload.name.replace(/ /g, '_');
                 const res = await axios.post(
                     '/upload',
                     { name, currentDate, currentTime, caption, base64 },
